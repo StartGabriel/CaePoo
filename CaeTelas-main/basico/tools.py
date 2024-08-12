@@ -2,8 +2,15 @@ import pygame
 from typing import Union,List,Tuple
 
 pygame.init()
-@staticmethod
+
 def get_color(name_of_color:Union[str,Tuple[int,int,int]]):
+    """Converte o nome passado em uma tupla RGB
+
+    Args:
+        name_of_color (Union[str,Tuple[int,int,int]]): Var com o nome ou valores RGB (red, green, blue)
+    Returns:
+        tuple: valor (R, G, B) range(255,255,255)
+    """
     COLORS = {
     "red": (255, 0, 0),
     "green": (0, 255, 0),
@@ -32,18 +39,38 @@ def get_color(name_of_color:Union[str,Tuple[int,int,int]]):
         return COLORS[name_of_color]
     else:
         return name_of_color
-@staticmethod
+
 def get_image(path_image:str):
+    """Função para fazer upload de imagem
+
+    Args:
+        path_image (str): Caminho da imagem
+
+    Returns:
+        Surface: Imagem convertida pela biblioteca pygame
+    """
     image = pygame.image.load(path_image)
     return image
 
-@staticmethod
-def draw_rect(window,
+def draw_rect(window:pygame.Surface,
               size:Union[List[int],Tuple[int,int,int]],
               color:Union[str,List[int],Tuple[int,int,int]],
               coordinates:Union[List[int],Tuple[int,int,int]],
               background:str,
-              tags):
+              tags:str):
+    """Desenha um retângulo na tela
+
+    Args:
+        window (Surface): Janela onde sera desenhado o retângulo
+        size (Union[List[int],Tuple[int,int,int]]): Tamanho do retângulo [largura,altura]
+        color (Union[str,List[int],Tuple[int,int,int]]): _description_
+        coordinates (Union[List[int],Tuple[int,int,int]]): _description_
+        background (str): _description_
+        tags (str): _description_
+
+    Returns:
+        _type_: _description_
+    """
     if color is not None:
         rect = pygame.draw.rect(window,color,(coordinates[0],coordinates[1],size[0],size[1]))
     if background is not None:
@@ -52,22 +79,43 @@ def draw_rect(window,
         background = pygame.transform.scale(background,size)
         window.blit(background,coordinates)
     return rect
-@staticmethod
+
 def verify_click(rect:pygame.Rect,
                  position:Union[List[int],Tuple[int,int,int]]):
+    """Verifica a região clicada
+
+    Args:
+        rect (pygame.Rect): Retangulo do pygame
+        position (Union[List[int],Tuple[int,int,int]]): Lista com coordenadas, de onde foi clicado [x,y]
+    Returns:
+        bool: Retorna se houve colisão mause/retângulo um valor bool
+    """
     clicked = rect.collidepoint(position)
     return clicked
 
-@staticmethod
+
 def insert_text(text:str,
                 color:Union[List[int],Tuple[int,int,int],str],
-                size:Union[Tuple[int,int],List[int]],
-                color2:str,
+                size:int,
+                background_color:str = None,
                 background:str = None,
                 percent_background = 10):
+    """Função para inserir trasformar texto
+
+    Args:
+        text (str): Texto a ser inserido.
+        color (Union[List[int],Tuple[int,int,int],str]): Cor do texto.
+        size (int): tamanho do texto.
+        background_color (str, opitional): Cor do fundo. Defaults to None
+        background (str, optional): Caminho para imagem de fundo. Defaults to None.
+        percent_background (int, optional): porcentagem de aumento da imagem. Defaults to 10.
+
+    Returns:
+        Surface: Retorna um objeto Surface
+    """
     color = get_color(color)
     fonte = pygame.font.Font(None,size)
-    text_render = fonte.render(text,True,color,color2)
+    text_render = fonte.render(text,True,color,background_color)
     returnar = text_render
     if background is not None:
         background = get_image(background)
@@ -80,20 +128,29 @@ def insert_text(text:str,
 
     return returnar
 
-@staticmethod
-def get_obj_center(coordinate_size,
-                   size_objt):
+
+def get_obj_center(coordinate_size:Union[List[int],Tuple[int,int]],
+                   size_objt:Union[List[int],Tuple[int,int]]):
+    """Coletar um ponto central de acordo com as posições
+
+    Args:
+        coordinate_size (Union[List[int],Tuple[int,int]]): Tamanho da area na qual quer coletar o centro [x,y]
+        size_objt (Union[List[int],Tuple[int,int]]): Tamanho do objeto a ser calculado [x,y]
+
+    Returns:
+        list: Retorna uma lista com os valores do centro de acordo com o tamanho do objeto
+    """
     size_obj = [size_objt[0],size_objt[1]]
     center = [int(coordinate_size[0]/2 - size_obj[0]/2),int(coordinate_size[1]/2-size_obj[1]/2)]
     print("center",center)
     return center
 
-@staticmethod
+
 def get_mid(object_base_coordinates:Union[List[int],Tuple[int,int]],
             object_base_size:Union[List[int],Tuple[int,int]],
             object_target_size:Union[List[int],Tuple[int,int]] = None,
             orientation:str="Todo"):
-    """_summary_
+    """Função para obter as coordenadas do centro de acordo com as coordenadas informadas
 
     Args:
         object_base_coordinates (Union[List[int],Tuple[int,int]]): Coordenadas do objeto alvo do calculo do centro
