@@ -59,17 +59,16 @@ class Input:
                                     background=self.background,
                                     tags=self.tags)
         self.grid_text = self.title.get_size()
-        self.coordinates_text = [int(self.coordinates[0] + self.size[0]/2 - self.grid_text[0]/2),
-                                 int(self.coordinates[1] + self.size[1]/2 - self.grid_text[1]/2)]
+        self.coordinates_text = tools.get_mid(self.coordinates,self.size,self.grid_text)
         self.window.blit(self.title, self.coordinates_text)
         self.texts = ""
 
-    def run(self, pos):
+    def run(self, pos:Union[List[int],Tuple[int,int]]):
         """
         Verifica se o campo de entrada foi clicado e captura o texto digitado.
 
         Args:
-            pos (tuple): A posição atual do cursor do mouse.
+            pos (Union[List[int],Tuple[int,int]]): A posição atual do cursor do mouse.
 
         Returns:
             str: O texto capturado pelo campo de entrada.
@@ -160,8 +159,7 @@ class Input:
                                     background=self.background,
                                     tags=self.tags)
         self.grid_text = self.title.get_size()
-        self.coordinates_text = [int(self.coordinates[0] + self.size[0]/2 - self.grid_text[0]/2),
-                                 int(self.coordinates[1] + self.size[1]/2 - self.grid_text[1]/2)]
+        self.coordinates_text = tools.get_mid(self.coordinates,self.size,self.grid_text)
         self.window.blit(self.title, self.coordinates_text)
         self.texts_off = self.texts
         self.texts = ''
